@@ -30,7 +30,7 @@ public class HuffmanCodeBuilder {
             if (charCountMap.containsKey(c))
                 charCountMap.replace(c, charCountMap.get(c) + 1);
             else
-                charCountMap.put(c, 0);
+                charCountMap.put(c, 1);
         }
     }
 
