@@ -14,7 +14,7 @@ public class HuffmanCodeBuilder {
         }
     }
 
-    private HashMap<Character, Integer> charCountMap;
+    private HashMap<String, Integer> charCountMap;
     private String s;
     public HuffmanCodeBuilder(String s) {
         if (s == null)
@@ -26,12 +26,12 @@ public class HuffmanCodeBuilder {
 
 
     private void countStringCharacters() {
-        for (Character c : s.toCharArray()) {
+        /*for (Character c : s.toCharArray()) {
             if (charCountMap.containsKey(c))
                 charCountMap.replace(c, charCountMap.get(c) + 1);
             else
                 charCountMap.put(c, 1);
-        }
+        }*/
     }
 
     private PriorityQueue<HuffmanNode> constructPriorityQueueNodes() {
@@ -43,7 +43,8 @@ public class HuffmanCodeBuilder {
         return queue;
     }
 
-    public HuffmanTree constructHuffmanTree() {
+    public HuffmanTree constructHuffmanTree(String filePath, int numOfBytes) {
+
         countStringCharacters();
         PriorityQueue<HuffmanNode> queue = constructPriorityQueueNodes();
         while (queue.size() > 1) {

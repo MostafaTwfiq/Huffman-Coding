@@ -2,23 +2,23 @@ package Huffman;
 
 public class HuffmanNode {
 
-    private Character c;
+    private String c;
     private int count;
     private HuffmanNode right;
     private HuffmanNode left;
 
-    protected HuffmanNode(Character c, int count, HuffmanNode right, HuffmanNode left) {
+    protected HuffmanNode(String c, int count, HuffmanNode right, HuffmanNode left) {
         this.c = c;
         this.count = count;
         this.right = right;
         this.left = left;
     }
 
-    public Character getC() {
+    public String getC() {
         return c;
     }
 
-    public void setC(Character c) {
+    public void setC(String c) {
         this.c = c;
     }
 

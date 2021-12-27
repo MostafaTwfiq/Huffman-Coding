@@ -10,7 +10,7 @@ public class HuffmanTree {
         currNode = root;
     }
 
-    public Character decodeBitByBit(boolean bit) {
+    public String decodeBitByBit(boolean bit) {
         if (root.getC() != null) // special case when the tree has only one node
             return root.getC();
         else {
@@ -18,7 +18,7 @@ public class HuffmanTree {
             if (currNode == null) // check if the passed sequence of bits has no corresponding character
                 throw new IllegalStateException();
 
-            Character c = currNode.getC();
+            String c = currNode.getC();
             if (c != null)
                 resetDecoder();
 
