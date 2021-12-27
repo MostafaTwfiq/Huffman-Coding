@@ -9,25 +9,30 @@ public class Main {
 
     public static void main (String[] args) {
 
-
-        System.exit(0);
-        String s = new String();
+        /*String s = new String();
         for (int i = 0; i < 45; i++)
-            s += "a";
+            s += "aa";
         for (int i = 0 ;i < 13; i++)
-            s+= "b";
+            s+= "bb";
         for (int i = 0; i < 12; i++)
-            s+= "c";
+            s+= "cc";
         for (int i = 0; i< 16; i++)
-            s+= "d";
+            s+= "dd";
         for (int i = 0; i < 9; i++)
-            s+= "e";
+            s+= "ee";
         for (int i =0; i <5;i++)
-            s+="f";
+            s+="ff";
 
-        //HuffmanTree tree = new HuffmanCodeBuilder(s).constructHuffmanTree();
-        //tree.decodeBitByBit(true);
-        //tree.decodeBitByBit(false);
-        //System.out.println(tree.decodeBitByBit(true));
+        System.out.println(s);
+        System.exit(0);*/
+        try {
+            HuffmanTree tree = new HuffmanCodeBuilder("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\testFile.txt").constructHuffmanTree(2);
+            tree.print();
+            //tree.decodeBitByBit(true);
+            //tree.decodeBitByBit(false);
+            //System.out.println(tree.decodeBitByBit(true));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

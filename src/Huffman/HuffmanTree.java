@@ -11,14 +11,14 @@ public class HuffmanTree {
     }
 
     public String decodeBitByBit(boolean bit) {
-        if (root.getC() != null) // special case when the tree has only one node
-            return root.getC();
+        if (root.getValue() != null) // special case when the tree has only one node
+            return root.getValue();
         else {
             currNode = bit ? currNode.getRight() : currNode.getLeft(); // check if to go right or left
             if (currNode == null) // check if the passed sequence of bits has no corresponding character
                 throw new IllegalStateException();
 
-            String c = currNode.getC();
+            String c = currNode.getValue();
             if (c != null)
                 resetDecoder();
 

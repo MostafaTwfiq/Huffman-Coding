@@ -1,3 +1,5 @@
+package FilesHandler;
+
 import java.io.*;
 
 public class FileLoader {
@@ -23,20 +25,20 @@ public class FileLoader {
             return stringBuilder.toString();
         }
 
-        resetFilePointer();
+        closeFile();
         return null;
     }
 
-    public void resetFilePointer() throws Exception {
-        input.reset();
+    private void closeFile() throws Exception {
+        input.close();
     }
 
     public void changeFile(String path) throws Exception {
         if (path == null)
             throw new IllegalArgumentException();
 
-        input.close();
-        input = this.input = new FileInputStream(path);
+        //input.close();
+        input = new FileInputStream(path);
     }
 
 }

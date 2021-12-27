@@ -1,5 +1,7 @@
 package Huffman;
 
+import FilesHandler.FileLoader;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -15,23 +17,25 @@ public class HuffmanCodeBuilder {
     }
 
     private HashMap<String, Integer> charCountMap;
-    private String s;
-    public HuffmanCodeBuilder(String s) {
-        if (s == null)
+    String filePath;
+    public HuffmanCodeBuilder(String filePath) {
+        if (filePath == null)
             throw new IllegalArgumentException();
 
         charCountMap = new HashMap<>();
-        this.s = s;
+        this.filePath = filePath;
     }
 
 
-    private void countStringCharacters() {
-        /*for (Character c : s.toCharArray()) {
-            if (charCountMap.containsKey(c))
-                charCountMap.replace(c, charCountMap.get(c) + 1);
+    private void countCharactersFromFile(int numOfBytes) throws Exception{
+        FileLoader fileLoader = new FileLoader(filePath);
+        String s;
+        while ((s = fileLoader.loadNBytesBinFile(numOfBytes)) != null) {
+            if (charCountMap.containsKey(s))
+                charCountMap.replace(s, charCountMap.get(s) + 1);
             else
-                charCountMap.put(c, 1);
-        }*/
+                charCountMap.put(s, 1);
+        }
     }
 
     private PriorityQueue<HuffmanNode> constructPriorityQueueNodes() {
@@ -43,9 +47,9 @@ public class HuffmanCodeBuilder {
         return queue;
     }
 
-    public HuffmanTree constructHuffmanTree(String filePath, int numOfBytes) {
+    public HuffmanTree constructHuffmanTree(int numOfBytes) throws Exception {
+        countCharactersFromFile(numOfBytes);
 
-        countStringCharacters();
         PriorityQueue<HuffmanNode> queue = constructPriorityQueueNodes();
         while (queue.size() > 1) {
             HuffmanNode n1 = queue.poll();
@@ -57,10 +61,10 @@ public class HuffmanCodeBuilder {
         return new HuffmanTree(queue.poll());
     }
 
-    public void setString(String s) {
-        if (s == null)
+    public void setFilePath(String filePath) {
+        if (filePath == null)
             throw new IllegalArgumentException();
 
-        this.s = s;
+        this.filePath = filePath;
     }
 }
