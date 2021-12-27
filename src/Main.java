@@ -27,7 +27,7 @@ public class Main {
         System.exit(0);*/
         try {
             HuffmanTree tree = new HuffmanCodeBuilder("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\testFile.txt").constructHuffmanTree(2);
-            tree.print();
+            System.out.println(tree.getNodeCode("fn"));
             //tree.decodeBitByBit(true);
             //tree.decodeBitByBit(false);
             //System.out.println(tree.decodeBitByBit(true));

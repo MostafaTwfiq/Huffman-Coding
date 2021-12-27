@@ -42,7 +42,7 @@ public class HuffmanCodeBuilder {
         Comparator<HuffmanNode> comparator = new HuffmanNodeComparator();
         PriorityQueue<HuffmanNode> queue = new PriorityQueue<HuffmanNode>(charCountMap.size(), comparator);
         for (var entry : charCountMap.entrySet())
-            queue.add(new HuffmanNode(entry.getKey(), entry.getValue(), null, null));
+            queue.add(new HuffmanNode(entry.getKey(), entry.getValue(),null, null, null));
 
         return queue;
     }
@@ -54,7 +54,9 @@ public class HuffmanCodeBuilder {
         while (queue.size() > 1) {
             HuffmanNode n1 = queue.poll();
             HuffmanNode n2 = queue.poll();
-            HuffmanNode newNode = new HuffmanNode(null, n1.getCount() + n2.getCount(), n2, n1);
+            HuffmanNode newNode = new HuffmanNode(null,  n1.getCount() + n2.getCount(), null, n2, n1);
+            n1.setParent(newNode);
+            n2.setParent(newNode);
             queue.add(newNode);
         }
 
