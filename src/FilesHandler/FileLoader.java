@@ -18,6 +18,7 @@ public class FileLoader {
         int available = input.available();
         if (available > 0) {
             input.read(b);
+            System.out.println(b[0]);
             StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < Math.min(available, numOfBytes); i++)
                 stringBuilder.append((char) b[i]);
