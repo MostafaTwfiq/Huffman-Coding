@@ -1,3 +1,5 @@
+package Huffman;
+
 public class HuffmanNode {
 
     private Character c;

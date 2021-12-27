@@ -1,3 +1,5 @@
+package Huffman;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -15,6 +17,9 @@ public class HuffmanCodeBuilder {
     private HashMap<Character, Integer> charCountMap;
     private String s;
     public HuffmanCodeBuilder(String s) {
+        if (s == null)
+            throw new IllegalArgumentException();
+
         charCountMap = new HashMap<>();
         this.s = s;
     }
@@ -38,9 +43,23 @@ public class HuffmanCodeBuilder {
         return queue;
     }
 
-    private HuffmanTree constructHuffmanTree() {
+    public HuffmanTree constructHuffmanTree() {
+        countStringCharacters();
         PriorityQueue<HuffmanNode> queue = constructPriorityQueueNodes();
+        while (queue.size() > 1) {
+            HuffmanNode n1 = queue.poll();
+            HuffmanNode n2 = queue.poll();
+            HuffmanNode newNode = new HuffmanNode(null, n1.getCount() + n2.getCount(), n2, n1);
+            queue.add(newNode);
+        }
 
+        return new HuffmanTree(queue.poll());
     }
 
+    public void setString(String s) {
+        if (s == null)
+            throw new IllegalArgumentException();
+
+        this.s = s;
+    }
 }
