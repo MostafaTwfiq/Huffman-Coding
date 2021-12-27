@@ -2,31 +2,31 @@ package Huffman;
 
 public class HuffmanNode {
 
-    private String value;
+    private byte[] value;
     private int count;
     private HuffmanNode parent;
     private HuffmanNode right;
     private HuffmanNode left;
 
-    protected HuffmanNode(String c, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
-        this.value = c;
+    protected HuffmanNode(byte[] value, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
+        this.value = value;
         this.count = 0;
         this.right = right;
         this.left = left;
     }
 
-    protected HuffmanNode(String c, int count, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
-        this.value = c;
+    protected HuffmanNode(byte[] value, int count, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
+        this.value = value;
         this.count = count;
         this.right = right;
         this.left = left;
     }
 
-    public String getValue() {
+    public byte[] getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(byte[] value) {
         this.value = value;
     }
 

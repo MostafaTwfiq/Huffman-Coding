@@ -1,5 +1,7 @@
 package Huffman;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,7 +15,7 @@ public class HuffmanTree {
         currNode = root;
     }
 
-    public String getNodeCode(String val) {
+    public String getNodeCode(byte[] val) {
         StringBuilder stringBuilder = new StringBuilder();
         Queue<HuffmanNode> nodesQueue = new LinkedList<HuffmanNode>();
         nodesQueue.add(root);
@@ -21,7 +23,7 @@ public class HuffmanTree {
         HuffmanNode targetNode = null;
         while (!nodesQueue.isEmpty()) {
             currNode = nodesQueue.poll();
-            if (currNode.getValue() != null && currNode.getValue().equals(val)) {
+            if (currNode.getValue() != null && Arrays.equals(currNode.getValue(), val)) {
                 targetNode = currNode;
                 break;
             }
@@ -47,7 +49,7 @@ public class HuffmanTree {
         return stringBuilder.length() == 0 ? stringBuilder.append(0).toString() : stringBuilder.reverse().toString();
     }
 
-    public String decodeBitByBit(boolean bit) {
+    public byte[] decodeBitByBit(boolean bit) {
         if (root.getValue() != null) // special case when the tree has only one node
             return root.getValue();
         else {
@@ -55,17 +57,40 @@ public class HuffmanTree {
             if (currNode == null) // check if the passed sequence of bits has no corresponding character
                 throw new IllegalStateException();
 
-            String c = currNode.getValue();
-            if (c != null)
+            byte[] bytes = currNode.getValue();
+            if (bytes != null)
                 resetDecoder();
 
-            return c;
+            return bytes;
 
         }
     }
 
     public void resetDecoder() {
         currNode = root;
+    }
+
+
+    public void print() {
+        print(root);
+    }
+
+    private void print(HuffmanNode root) {
+        if (root == null)
+            return;
+
+        print(root.getLeft());
+        if (root.getValue() == null) {
+            System.out.println("null " + root.getCount());
+        } else {
+            for (int i = 0; i < root.getValue().length; i++) {
+                System.out.print((char) root.getValue()[i] + " ");
+            }
+            System.out.println(root.getCount());
+        }
+
+        System.out.println();
+        print(root.getRight());
     }
 
 }

@@ -16,7 +16,8 @@ public class HuffmanCodeBuilder {
         }
     }
 
-    private HashMap<String, Integer> charCountMap;
+    private HashMap<ByteArray, Integer> charCountMap;
+
     String filePath;
     public HuffmanCodeBuilder(String filePath) {
         if (filePath == null)
@@ -26,15 +27,22 @@ public class HuffmanCodeBuilder {
         this.filePath = filePath;
     }
 
-
+// 450*1024*1024/(2*10^6)
     private void countCharactersFromFile(int numOfBytes) throws Exception{
         FileLoader fileLoader = new FileLoader(filePath);
-        String s;
-        while ((s = fileLoader.loadNBytesBinFile(numOfBytes)) != null) {
-            if (charCountMap.containsKey(s))
-                charCountMap.replace(s, charCountMap.get(s) + 1);
+        byte[] b;
+        int count = 0;
+        while ((b = fileLoader.loadNBytesBinFile(numOfBytes)) != null) {
+            if (count % 1000000 == 0)
+                System.out.println("Hehe");
+
+            ByteArray byteArray = new ByteArray(b);
+            if (charCountMap.containsKey(byteArray))
+                charCountMap.replace(byteArray, charCountMap.get(byteArray) + 1);
             else
-                charCountMap.put(s, 1);
+                charCountMap.put(byteArray, 1);
+
+            count++;
         }
     }
 
@@ -42,7 +50,7 @@ public class HuffmanCodeBuilder {
         Comparator<HuffmanNode> comparator = new HuffmanNodeComparator();
         PriorityQueue<HuffmanNode> queue = new PriorityQueue<HuffmanNode>(charCountMap.size(), comparator);
         for (var entry : charCountMap.entrySet())
-            queue.add(new HuffmanNode(entry.getKey(), entry.getValue(),null, null, null));
+            queue.add(new HuffmanNode(entry.getKey().getData(), entry.getValue(),null, null, null));
 
         return queue;
     }

@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 public class Main {
 
@@ -44,11 +45,13 @@ public class Main {
         System.exit(0);*/
 
         try {
-            HuffmanTree tree = new HuffmanCodeBuilder("D:\\gbbct10.seq").constructHuffmanTree(1);
-            System.out.println(tree.getNodeCode("fn"));
-            //tree.decodeBitByBit(true);
-            //tree.decodeBitByBit(false);
-            //System.out.println(tree.decodeBitByBit(true));
+            HuffmanTree tree = new HuffmanCodeBuilder("D:\\gbbct10.seq").constructHuffmanTree(2);
+            tree.print();
+            System.exit(0);
+            System.out.println(tree.getNodeCode(new byte[]{(byte) 'a', (byte) 'a'}));
+            tree.decodeBitByBit(true);
+            tree.decodeBitByBit(false);
+            System.out.println(Arrays.toString(tree.decodeBitByBit(true)));
         } catch (Exception e) {
             System.out.println(e);
         }

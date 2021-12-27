@@ -1,45 +1,45 @@
 package FilesHandler;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class FileLoader {
 
-    InputStream input;
+    int BUFFER_SIZE = 400 * 1024 * 1024; // 16KB
+
+    private FileInputStream file;
+    private BufferedInputStream buff;
+
     public FileLoader(String path) throws Exception {
         if (path == null)
             throw new IllegalStateException();
 
-        this.input = new FileInputStream(path);
+        this.file = new FileInputStream(path);
+        this.buff = new BufferedInputStream(file, BUFFER_SIZE);
+
     }
 
-    public String loadNBytesBinFile(int numOfBytes) throws Exception {
+    public byte[] loadNBytesBinFile(int numOfBytes) throws Exception {
 
         byte[] b = new byte[numOfBytes];
-        int available = input.available();
+        int available = buff.available();
         if (available > 0) {
-            input.read(b);
-            System.out.println(b[0]);
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < Math.min(available, numOfBytes); i++)
-                stringBuilder.append((char) b[i]);
-
-            return stringBuilder.toString();
+            buff.read(b);
+            return Arrays.copyOf(b, Math.min(available, numOfBytes));
         }
 
-        closeFile();
+        buff.close();
         return null;
+
     }
 
-    private void closeFile() throws Exception {
-        input.close();
-    }
 
     public void changeFile(String path) throws Exception {
         if (path == null)
             throw new IllegalArgumentException();
 
-        //input.close();
-        input = new FileInputStream(path);
+        this.file = new FileInputStream(path);
+        this.buff = new BufferedInputStream(file, BUFFER_SIZE);
     }
 
 }
