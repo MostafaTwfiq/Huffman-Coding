@@ -53,6 +53,10 @@ public class HuffmanTree {
     }
 
 
+    public int treeSize() {
+        return nodesMap.size();
+    }
+
     public void print() {
         print(root);
     }
@@ -75,4 +79,7 @@ public class HuffmanTree {
         print(root.getRight());
     }
 
+    public byte[][] getSortedBytes() {
+        return sortedBytes;
+    }
 }

@@ -2,6 +2,7 @@ package Huffman;
 
 import FilesHandler.FileLoader;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -18,8 +19,8 @@ public class HuffmanCodeBuilder {
     }
 
     private HashMap<ByteArray, Integer> charCountMap;
+    private String filePath;
 
-    String filePath;
     public HuffmanCodeBuilder(String filePath) {
         if (filePath == null)
             throw new IllegalArgumentException();
@@ -29,7 +30,7 @@ public class HuffmanCodeBuilder {
     }
 
 
-    private void countCharactersFromFile(int numOfBytes) throws Exception{
+    private void countCharactersFromFile(int numOfBytes) throws IOException{
         FileLoader fileLoader = new FileLoader(filePath);
         byte[] b;
         while ((b = fileLoader.loadNBytesBinFile(numOfBytes)) != null) {
@@ -50,7 +51,7 @@ public class HuffmanCodeBuilder {
         return queue;
     }
 
-    public HuffmanTree constructHuffmanTree(int numOfBytes) throws Exception {
+    public HuffmanTree constructHuffmanTree(int numOfBytes) throws IOException {
         countCharactersFromFile(numOfBytes);
 
         PriorityQueue<HuffmanNode> queue = constructPriorityQueueNodes();
