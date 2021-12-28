@@ -1,46 +1,27 @@
 package Huffman;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.HashMap;
 
 public class HuffmanTree {
 
+    private HashMap<ByteArray, HuffmanNode> nodesMap;
+    private byte[][] sortedBytes;
     private HuffmanNode root;
     private HuffmanNode currNode; // it will be useful while decoding
 
-    protected HuffmanTree(HuffmanNode root) {
+    protected HuffmanTree(HuffmanNode root, HashMap<ByteArray, HuffmanNode> nodesMap, byte[][] sortedBytes) {
         this.root = root;
         currNode = root;
+        this.nodesMap = nodesMap;
+        this.sortedBytes = sortedBytes;
     }
 
     public String getNodeCode(byte[] val) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Queue<HuffmanNode> nodesQueue = new LinkedList<HuffmanNode>();
-        nodesQueue.add(root);
-        HuffmanNode currNode;
-        HuffmanNode targetNode = null;
-        while (!nodesQueue.isEmpty()) {
-            currNode = nodesQueue.poll();
-            if (currNode.getValue() != null && Arrays.equals(currNode.getValue(), val)) {
-                targetNode = currNode;
-                break;
-            }
-
-            HuffmanNode tempNode = currNode.getLeft();
-            if (tempNode != null)
-                nodesQueue.add(tempNode);
-
-            tempNode = currNode.getRight();
-            if (tempNode != null)
-                nodesQueue.add(tempNode);
-
-        }
-
+        HuffmanNode targetNode = nodesMap.get(new ByteArray(val));
         if (targetNode == null)
             return null;
 
+        StringBuilder stringBuilder = new StringBuilder();
         while (targetNode.getParent() != null) {
             stringBuilder.append(targetNode.getParent().getLeft() == targetNode ? 0 : 1);
             targetNode = targetNode.getParent();
@@ -48,6 +29,7 @@ public class HuffmanTree {
 
         return stringBuilder.length() == 0 ? stringBuilder.append(0).toString() : stringBuilder.reverse().toString();
     }
+
 
     public byte[] decodeBitByBit(boolean bit) {
         if (root.getValue() != null) // special case when the tree has only one node
