@@ -1,7 +1,9 @@
+import FilesHandler.FileWriter;
 import Huffman.HuffmanCodeBuilder;
 import Huffman.HuffmanTree;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -13,7 +15,18 @@ public class Main {
 
 
     public static void main (String[] args) {
+        try {
 
+            FileWriter writer = new FileWriter("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\writeFile.txt");
+            writer.writeBytesToBuff("123".getBytes(StandardCharsets.UTF_8));
+            //writer.writeBuffToDisk();
+            writer.writeBytesToBuff("123".getBytes(StandardCharsets.UTF_8));
+            //writer.writeBuffToDisk();
+            writer.closeFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.exit(0);
         /*Path path = Paths.get("doc.txt");
         byte[] bytes = "ABCD".getBytes(StandardCharsets.UTF_8);
 

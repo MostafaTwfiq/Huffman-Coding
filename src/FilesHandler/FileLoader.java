@@ -5,12 +5,12 @@ import java.util.Arrays;
 
 public class FileLoader {
 
-    int BUFFER_SIZE = 400 * 1024 * 1024; // 16KB
+    private final int BUFFER_SIZE = 50 * 1024 * 1024; // 50MB
 
     private FileInputStream file;
     private BufferedInputStream buff;
 
-    public FileLoader(String path) throws Exception {
+    public FileLoader(String path) throws IOException {
         if (path == null)
             throw new IllegalStateException();
 
@@ -19,7 +19,7 @@ public class FileLoader {
 
     }
 
-    public byte[] loadNBytesBinFile(int numOfBytes) throws Exception {
+    public byte[] loadNBytesBinFile(int numOfBytes) throws IOException {
 
         byte[] b = new byte[numOfBytes];
         int available = buff.available();
@@ -34,7 +34,7 @@ public class FileLoader {
     }
 
 
-    public void changeFile(String path) throws Exception {
+    public void changeFile(String path) throws IOException {
         if (path == null)
             throw new IllegalArgumentException();
 
