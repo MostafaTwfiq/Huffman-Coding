@@ -19,6 +19,10 @@ public class FileLoader {
 
     }
 
+    public int getAvailableBytes() throws IOException {
+        return buff.available();
+    }
+
     public byte[] loadNBytesBinFile(int numOfBytes) throws IOException {
 
         byte[] b = new byte[numOfBytes];

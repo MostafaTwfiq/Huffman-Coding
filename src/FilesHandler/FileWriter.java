@@ -18,6 +18,12 @@ public class FileWriter {
         this.filePath = path;
         openFile();
     }
+    public void writeAtPosition(byte[] b, int pos) throws IOException {
+        var fb = new RandomAccessFile(filePath,"rw");
+        fb.seek(0);
+        fb.write(b);
+        fb.close();
+    }
 
     private void openFile() throws IOException {
         this.file = new FileOutputStream(filePath);

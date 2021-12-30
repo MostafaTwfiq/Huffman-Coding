@@ -18,15 +18,21 @@ public class BitMask {
     }
 
     public byte[] mergeTwoBytesArr(byte[] byteArr1, int lastByteSize1, byte[] byteArr2, int lastByteSize2) {
+        // 11111000
+        // 11111100
+
+        // 11111111
+        // 11100000
         byte[] fByteArr = new byte[byteArr1.length + byteArr2.length - 1 + ((8 - lastByteSize1) >= (lastByteSize2) ? 0 : 1)];
-        byteArr1[byteArr1.length - 1] += (byte) (Byte.toUnsignedInt(byteArr2[0]) >> lastByteSize1);
+        byteArr1[byteArr1.length - 1] |= (byte) (Byte.toUnsignedInt(byteArr2[0]) >>> lastByteSize1);
+
         for (int i = 0; i < byteArr2.length - 1; i++) {
-            byteArr2[i] <<= lastByteSize1;
-            byteArr2[i] += (byte) (Byte.toUnsignedInt(byteArr2[i + 1]) >> lastByteSize1);
+            byteArr2[i] <<= (8 - lastByteSize1);
+            byteArr2[i] |= (byte) (Byte.toUnsignedInt(byteArr2[i + 1]) >>> lastByteSize1);
         }
 
         if ((8 - lastByteSize1) < (lastByteSize2))
-            byteArr2[byteArr2.length - 1] <<= lastByteSize1;
+            byteArr2[byteArr2.length - 1] <<= (8 - lastByteSize1);
 
         for (int i = 0; i < fByteArr.length; i++) {
             if (i < byteArr1.length)
@@ -36,6 +42,23 @@ public class BitMask {
         }
 
         return fByteArr;
+    }
+
+    public String byteToString(byte b) {
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 1; i <= 64; i *= 2) {
+            if ((b & i) != 0)
+                stringBuilder.append('1');
+            else
+                stringBuilder.append('0');
+        }
+        if ((b & -128) != 0)
+            stringBuilder.append('1');
+        else
+            stringBuilder.append('0');
+
+        return stringBuilder.reverse().toString();
     }
 
 }

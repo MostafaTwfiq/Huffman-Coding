@@ -10,14 +10,6 @@ import java.util.Vector;
 
 public class HuffmanCodeBuilder {
 
-    private class HuffmanNodeComparator implements Comparator<HuffmanNode> {
-
-        @Override
-        public int compare(HuffmanNode n1, HuffmanNode n2) {
-            return n1.getCount() - n2.getCount();
-        }
-    }
-
     private HashMap<ByteArray, Integer> charCountMap;
     private String filePath;
 
@@ -77,6 +69,19 @@ public class HuffmanCodeBuilder {
         }
 
         return new HuffmanTree(queue.poll(), nodesMap, sortedNodes.toArray(byte[][]::new));
+    }
+
+    public static HuffmanTree reconstructHuffmanTree(PriorityQueue<HuffmanNode> queue, int numOfBytes) {
+
+        while (queue.size() > 1) {
+            HuffmanNode n1 = queue.poll();
+            HuffmanNode n2 = queue.poll();
+            HuffmanNode newNode = new HuffmanNode(null,  n1.getCount() + n2.getCount(), null, n2, n1);
+            n1.setParent(newNode);
+            n2.setParent(newNode);
+            queue.add(newNode);
+        }
+        return new HuffmanTree(queue.poll(), null, null);
     }
 
     public void setFilePath(String filePath) {

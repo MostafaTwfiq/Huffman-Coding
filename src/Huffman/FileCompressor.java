@@ -34,29 +34,33 @@ public class FileCompressor {
             byte[] b = bitMask.stringToBytes(code);
             if (code.length() % 8 != 0 || prevByte != null) {
                 if (prevByte != null) {
-                    prevByte = bitMask.mergeTwoBytesArr(prevByte, prevByteLastByteSize, b, 8 - code.length() % 8);
+                    prevByte = bitMask.mergeTwoBytesArr(prevByte, prevByteLastByteSize, b, code.length() % 8);
                     // 8 - l1 == l2 write
                     // 8 - l1 < l2 --> prelen = l2 - (8 - l1) = l2 + l1 - 8
                     // 8 - l1 > l2 ---> prelen = 8 - l1 - l2
-                    if (8 - prevByteLastByteSize == code.length()) {
-                        writer.writeBytesToBuff(b);
+                    if (8 - prevByteLastByteSize == code.length() % 8) {
+                        writer.writeBytesToBuff(prevByte);
                         prevByte = null;
-                    } else if (8 - prevByteLastByteSize < code.length())
-                        prevByteLastByteSize += code.length() - 8;
+                    } else if (8 - prevByteLastByteSize < code.length() % 8)
+                        prevByteLastByteSize = (byte) ((code.length() % 8) - 8 + prevByteLastByteSize);
                     else
-                        prevByteLastByteSize = (byte) (8 - prevByteLastByteSize - code.length());
+                        prevByteLastByteSize = (byte) (prevByteLastByteSize + (code.length() % 8));
 
                 } else {
                     prevByte = b;
-                    prevByteLastByteSize = (byte) (8 - code.length() % 8);
+                    prevByteLastByteSize = (byte) (code.length() % 8);
                 }
             } else
                 writer.writeBytesToBuff(b);
         }
-        if (prevByte != null)
+        if (prevByte != null) {
             writer.writeBytesToBuff(prevByte);
+        }
 
         writer.writeBuffToDisk();
+        if (prevByte != null) {
+            writer.writeAtPosition(new byte[]{prevByteLastByteSize}, 0);
+        }
         writer.closeFile();
     }
 
@@ -64,6 +68,7 @@ public class FileCompressor {
         writer = new FileWriter("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\try.txt");
         byte[] nOfBytes = ByteBuffer.allocate(4).putInt(numOfBytes).array();
         byte[] totalTreeSize = ByteBuffer.allocate(4).putInt(tree.treeSize()).array();
+        writer.writeBytesToBuff(new byte[]{0});
         writer.writeBytesToBuff(nOfBytes);
         writer.writeBytesToBuff(totalTreeSize);
         byte[][] uniqueBytesSorted = tree.getSortedBytes();
