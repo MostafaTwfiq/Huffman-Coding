@@ -1,6 +1,9 @@
 package Huffman;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Stack;
 
 public class HuffmanTree {
 
@@ -46,6 +49,61 @@ public class HuffmanTree {
             return bytes;
 
         }
+    }
+
+    public String treeToHeader() {
+        ArrayList<Byte> bytes = new ArrayList<Byte>();
+
+        StringBuilder stringBuilder = new StringBuilder();
+        Stack<HuffmanNode> nodesStack = new Stack<>();
+        HashSet<HuffmanNode> nodesHashset = new HashSet<>();
+        nodesStack.push(root);
+
+        HuffmanNode currNode, leftNode ,rightNode;
+        byte temp   = 0;
+        int bitwrtn = 0;
+
+        while (!nodesStack.empty()) {
+            currNode = nodesStack.pop();
+            if (nodesHashset.contains(currNode)) {
+                if(bitwrtn == 8){
+                    bytes.add(new Byte(temp));
+                    temp    = 0;
+                    bitwrtn = 0;
+                }
+                bitwrtn++;
+                //stringBuilder.append('0');
+                continue;
+            }
+            //11101101 000
+            //11101101 000 00000
+            leftNode = currNode.getLeft();
+            rightNode = currNode.getRight();
+            nodesHashset.add(currNode);
+            if (leftNode == null && rightNode == null) {
+                if(bitwrtn < 8) {
+                    temp  = (byte)(temp | (1 << 8 - ++bitwrtn));
+                }else{
+                    bytes.add(new Byte(temp));
+                    bitwrtn = 0;
+                    temp  = (byte)(temp | (1 << 8 - ++bitwrtn));
+                }
+                //stringBuilder.append('1');
+            } else {
+                nodesStack.push(currNode);
+                if (rightNode != null)
+                    nodesStack.push(rightNode);
+                if (leftNode != null)
+                    nodesStack.push(leftNode);
+            }
+        }
+        if (bitwrtn!=0)
+            bytes.add(new Byte(temp));
+        for (var ele: bytes) {
+            stringBuilder.append(new BitMask().byteToString(ele));
+        }
+        System.out.println("Padding:"+(8-bitwrtn));
+        return stringBuilder.toString();
     }
 
     public void resetDecoder() {

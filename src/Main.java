@@ -22,12 +22,16 @@ public class Main {
             byte[] b3 = bitMask.mergeTwoBytesArr(b1, 5, b2, 4);
             for (byte b : b3)
                 System.out.println(bitMask.byteToString(b));*/
-            FileDecompressor decompressor = new FileDecompressor("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\try.txt");
+            /*FileDecompressor decompressor = new FileDecompressor("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\try.txt");
             decompressor.decompressFile();
             System.exit(0);
             FileCompressor compressor = new FileCompressor("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\c.txt", 1);
             compressor.compressFile();
-            System.exit(0);
+            System.exit(0);*/
+            HuffmanCodeBuilder builder = new HuffmanCodeBuilder("C:\\Users\\mosta\\IdeaProjects\\SIC\\Huffman-Coding\\testFile.txt");
+            HuffmanTree tree = builder.constructHuffmanTree(1);
+            String s = tree.treeToHeader();
+            System.out.println(s);
         } catch (Exception e) {
             e.printStackTrace();
         }
