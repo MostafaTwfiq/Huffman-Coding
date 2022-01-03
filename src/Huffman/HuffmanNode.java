@@ -1,6 +1,8 @@
 package Huffman;
 
-public class HuffmanNode {
+import java.util.Comparator;
+
+public class HuffmanNode implements Comparable<HuffmanNode> {
 
     private byte[] value;
     private int count;
@@ -15,7 +17,7 @@ public class HuffmanNode {
         this.left = left;
     }
 
-    protected HuffmanNode(byte[] value, int count, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
+    public HuffmanNode(byte[] value, int count, HuffmanNode parent, HuffmanNode right, HuffmanNode left) {
         this.value = value;
         this.count = count;
         this.right = right;
@@ -60,5 +62,18 @@ public class HuffmanNode {
 
     public void setParent(HuffmanNode parent) {
         this.parent = parent;
+        if(this.parent.right==null)
+            this.parent.right = this;
+        else
+            this.parent.left = this;
+    }
+
+    public boolean isLeaf(){
+        return (this.left == null && this.right == null);
+    }
+
+    @Override
+    public int compareTo(HuffmanNode o) {
+        return  this.getCount() - o.getCount();
     }
 }

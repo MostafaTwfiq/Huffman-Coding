@@ -3,6 +3,7 @@ package Huffman;
 import FilesHandler.FileLoader;
 import FilesHandler.FileWriter;
 
+import java.io.BufferedInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -71,10 +72,12 @@ public class FileCompressor {
         writer.writeBytesToBuff(new byte[]{0});
         writer.writeBytesToBuff(nOfBytes);
         writer.writeBytesToBuff(totalTreeSize);
+
         byte[][] uniqueBytesSorted = tree.getSortedBytes();
         for (byte[] b : uniqueBytesSorted)
             writer.writeBytesToBuff(b);
-
+        tree.treeToHeader();
+        //
         writer.writeBuffToDisk();
     }
 

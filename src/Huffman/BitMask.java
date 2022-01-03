@@ -4,6 +4,10 @@ public class BitMask {
 
     public BitMask() {}
 
+    public byte addBitToByte(byte b, boolean bit, short byteSize) {
+        return (b |= (bit ? 1 : 0) << 7 - byteSize);
+    }
+
     public byte[] stringToBytes(String s) {
         byte[] bytesArr = new byte[(int) Math.ceil(s.length() / 8.0)];
         for (int i = 0; i < bytesArr.length; i++) {

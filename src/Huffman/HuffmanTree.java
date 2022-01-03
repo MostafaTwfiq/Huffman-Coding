@@ -72,7 +72,7 @@ public class HuffmanTree {
                     bitwrtn = 0;
                 }
                 bitwrtn++;
-                //stringBuilder.append('0');
+                stringBuilder.append('0');
                 continue;
             }
             //11101101 000
@@ -88,7 +88,7 @@ public class HuffmanTree {
                     bitwrtn = 0;
                     temp  = (byte)(temp | (1 << 8 - ++bitwrtn));
                 }
-                //stringBuilder.append('1');
+                stringBuilder.append('1');
             } else {
                 nodesStack.push(currNode);
                 if (rightNode != null)
