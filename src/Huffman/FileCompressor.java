@@ -7,6 +7,7 @@ import java.io.BufferedInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.BitSet;
 import java.util.Vector;
 
 public class FileCompressor {
@@ -73,12 +74,20 @@ public class FileCompressor {
         writer.writeBytesToBuff(nOfBytes);
         writer.writeBytesToBuff(totalTreeSize);
 
-        byte[][] uniqueBytesSorted = tree.getSortedBytes();
-        for (byte[] b : uniqueBytesSorted)
+        byte[][] inorder = tree.getInOrder();
+        for (byte[] b : inorder)
             writer.writeBytesToBuff(b);
-        tree.treeToHeader();
-        //
+
+
+        var header = tree.treeToHeader().toCharArray();
+        BitSet set        = new BitSet(header.length);
+        for (int i = 0, headerLength = header.length; i < headerLength; i++) {
+            char b = header[i];
+            if (b == '1') {
+                set.set(7 - i%8);
+            }
+        }
+        writer.writeBytesToBuff( set.toByteArray());
         writer.writeBuffToDisk();
     }
-
 }

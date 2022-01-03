@@ -136,6 +136,21 @@ public class HuffmanTree {
         System.out.println();
         print(root.getRight());
     }
+    public byte[][] getInOrder() {
+        var bbarr = new byte[treeSize()][];
+        int[] index = new int[]{0};
+        inOrderRecursive(this.root,index,bbarr);
+        return bbarr;
+    }
+
+    private void inOrderRecursive(HuffmanNode node, int[] index, byte[][] bbarr){
+        if(node.isLeaf()){
+            bbarr[index[0]++] = node.getValue();
+            return;
+        }
+        inOrderRecursive(node.getLeft(),index,bbarr);
+        inOrderRecursive(node.getRight(),index,bbarr);
+    }
 
     public byte[][] getSortedBytes() {
         return sortedBytes;
