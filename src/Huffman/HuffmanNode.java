@@ -62,10 +62,6 @@ public class HuffmanNode implements Comparable<HuffmanNode> {
 
     public void setParent(HuffmanNode parent) {
         this.parent = parent;
-        if(this.parent.right==null)
-            this.parent.right = this;
-        else
-            this.parent.left = this;
     }
 
     public boolean isLeaf(){
