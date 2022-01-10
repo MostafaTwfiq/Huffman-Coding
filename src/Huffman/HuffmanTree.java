@@ -8,39 +8,6 @@ public class HuffmanTree {
     private HuffmanNode root;
     private HuffmanNode currNode; // it will be useful while decoding
 
-    public boolean checkTwoTrees(HuffmanTree tree) {
-        return checkHelper(root, tree.root);
-    }
-
-    private boolean checkHelper(HuffmanNode root1, HuffmanNode root2) {
-        if (root1 == null && root2 == null)
-            return true;
-        if (root1 == null || root2 == null)
-            return false;
-        if (root1.getValue() == null && root2.getValue() != null)
-            return false;
-        if (root2.getValue() == null && root1.getValue() != null)
-            return false;
-
-        if (root1.getValue() != null && !checkTwoBytesArrays(root1.getValue(), root2.getValue()))
-            return false;
-
-        return checkHelper(root1.getLeft(), root2.getLeft()) && checkHelper(root1.getRight(), root2.getRight());
-
-    }
-
-    private boolean checkTwoBytesArrays(byte[] b1, byte[] b2) {
-        if (b1.length != b2.length)
-            return false;
-
-        for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i])
-                return false;
-        }
-
-        return true;
-    }
-
     protected HuffmanTree(HuffmanNode root, HashMap<ByteArray, HuffmanNode> nodesMap) {
         this.root = root;
         currNode = root;
@@ -129,28 +96,6 @@ public class HuffmanTree {
 
     public int treeSize() {
         return nodesMap.size();
-    }
-
-    public void print() {
-        print(root);
-    }
-
-    private void print(HuffmanNode root) {
-        if (root == null)
-            return;
-
-        print(root.getLeft());
-        if (root.getValue() == null) {
-            System.out.println("null " + root.getCount());
-        } else {
-            for (int i = 0; i < root.getValue().length; i++) {
-                System.out.print((char) root.getValue()[i] + " ");
-            }
-            System.out.println(root.getCount());
-        }
-
-        System.out.println();
-        print(root.getRight());
     }
 
 }

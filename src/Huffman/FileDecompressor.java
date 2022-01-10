@@ -2,7 +2,6 @@ package Huffman;
 
 import FilesHandler.FileLoader;
 import FilesHandler.FileWriter;
-import main.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +16,13 @@ public class FileDecompressor {
         this.filePath = filePath;
     }
 
-    public HuffmanTree decompressFile() throws IOException {
+    public void decompressFile() throws IOException {
         BitMask bitMask = new BitMask();
         FileLoader fileLoader = new FileLoader(filePath);
-        String decompressedFilePath = filePath.replace(".exe.hc", "E.exe");
+
+        File file = new File(filePath);
+        String decompressedFilePath = file.getParent() + "\\" + "extracted." + file.getName().substring(0, file.getName().lastIndexOf(".hc"));
+
         File f = new File(decompressedFilePath);
         f.createNewFile();
         FileWriter writer = new FileWriter(decompressedFilePath);
@@ -49,7 +51,7 @@ public class FileDecompressor {
         String byteCode;
 
         for (int i = 0; i < compressedFileBytes.length; i++) {
-            boolean fileIsFinished = (i == compressedFileBytes.length - 1);
+            boolean fileIsFinished = ((i == compressedFileBytes.length - 1) && numOfDummyZeroBits != 8);
             byteCode = bitMask.byteToString(compressedFileBytes[i]);
             for (int j = 0; j < (fileIsFinished ? 8 - numOfDummyZeroBits : 8); j++) {
                 currElement = tree.decodeBitByBit(byteCode.charAt(j) == '1');
@@ -60,6 +62,5 @@ public class FileDecompressor {
         }
         writer.writeBuffToDisk();
 
-        return tree;
     }
 }

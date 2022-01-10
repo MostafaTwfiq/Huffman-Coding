@@ -11,35 +11,6 @@ public class BitMask {
     }
 
 
-    public BitSet mergeBitSets(BitSet bitSet1, BitSet bitSet2) {
-        //len1 =  3
-        //len2 =  3
-        //size3 =  6
-        // 0 1 2 3 4 5
-        //
-
-        BitSet bitSet3 = new BitSet(bitSet1.length() + bitSet2.length());
-        int  len  =  bitSet1.length() + bitSet2.length();
-        for (int i = bitSet1.length() - 1; i >= 0; i--) {
-            bitSet3.set(len - (bitSet1.length() - i), bitSet1.get(i));
-        }
-        for (int i = bitSet2.length() - 1; i >= 0; i--) {
-            System.out.println(len - bitSet1.length() - (bitSet2.length() - i)+":"+ i);
-            bitSet3.set(len - bitSet1.length() - (bitSet2.length() - i), bitSet2.get(i));
-        }
-
-        /*for (int i = bitSet3.size() - 1; i > 0; i--) {
-            if (i  - bitSet1.length() - 1 > 0) {
-                bitSet3.set(i, bitSet1.get(bitSet1.length() - bitSet3.length() - 1));
-            } else {
-                bitSet3.set(i, bitSet2.get(bitSet2.length() - 1 - (bitSet3.length() - bitSet1.length())));
-            }
-        }*/
-
-        return bitSet3;
-    }
-
-
     public byte[] stringToBytes(String s) {
         byte[] bytesArr = new byte[(int) Math.ceil(s.length() / 8.0)];
         for (int i = 0; i < bytesArr.length; i++) {
